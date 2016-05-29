@@ -9,19 +9,34 @@ public class Movie {
     public static final int NEW_RELEASE = 1;
 
     private String _title;        // 名稱
-    private int _priceCode;       // 價格
+    private Price _price;       // 價格
 
     public Movie(String title, int priceCode){
         _title = title;
-        _priceCode = priceCode;
+        setPrice(priceCode);
     }
 
-    public int getPriceCode() {
-        return _priceCode;
+    public double getPrice(int daysRented) {
+        return this._price.getPrice(daysRented);
     }
 
-    public void setPriceCode(int arg) {
-        _priceCode = arg;
+    public void setPrice(int priceCode) {
+        switch(priceCode){   // 取得影片出租價格
+            case Movie.REGULAR:                     // 普通片
+                this._price = new RegularPrice();
+                break;
+            case Movie.NEW_RELEASE:         // 新片
+                this._price = new NewReleasePrice();
+                break;
+
+            case Movie.CHILDRENS:           // 兒童片
+                this._price = new ChildrensPrice();
+                break;
+        }
+    }
+
+    public int getFrequentRenterPoints(int daysRented) {
+        return this._price.getFrequentRenterPoints(daysRented);
     }
 
     public String getTitle() {
